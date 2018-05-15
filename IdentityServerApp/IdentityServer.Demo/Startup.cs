@@ -14,11 +14,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityServer.Demo {
     public class Startup {
+        
+        public IConfiguration Configuration { get; }
+
         public Startup (IConfiguration configuration) {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
@@ -30,6 +31,7 @@ namespace IdentityServer.Demo {
             //Configuring IdentityServer4
             services.AddIdentityServer ()
                 .AddDeveloperSigningCredential ()
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources (Config.GetApiResources ())
                 .AddInMemoryClients (Config.GetClients ())
                 .AddTestUsers (Config.GetUsers ());
@@ -38,25 +40,25 @@ namespace IdentityServer.Demo {
                 .AddAuthorization ()
                 .AddJsonFormatters ();
 
-            // Adding Authentication services and configure "Bearer" as the default scheme.
-            services.AddAuthentication ("Bearer")
-                .AddIdentityServerAuthentication (options => {
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
-                    options.ApiName = "api1";
-                });
+            // // Adding Authentication services and configure "Bearer" as the default scheme.
+            // services.AddAuthentication ("Bearer")
+            //     .AddIdentityServerAuthentication (options => {
+            //         options.Authority = "http://localhost:5000";
+            //         options.RequireHttpsMetadata = false;
+            //         options.ApiName = "api1";
+            //     });
 
             // services.AddIdentityServer ();
 
             //Adding external authentication
             services.AddAuthentication ()
-                //Adding Google as an external authentication
-                .AddGoogle ("Google", options => {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                // //Adding Google as an external authentication
+                // .AddGoogle ("Google", options => {
+                //     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-                    options.ClientId = "708996912208-9m4dkjb5hscn7cjrn5u0r4tbgkbj1fko.apps.googleusercontent.com";
-                    options.ClientSecret = "wdfPY6t8H8cecgjlxud__4Gh";
-                })
+                //     options.ClientId = "708996912208-9m4dkjb5hscn7cjrn5u0r4tbgkbj1fko.apps.googleusercontent.com";
+                //     options.ClientSecret = "wdfPY6t8H8cecgjlxud__4Gh";
+                // })
                 //Adding OpenID Connect
                 .AddOpenIdConnect ("demoidsrv", "IdentityServer", options => {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
