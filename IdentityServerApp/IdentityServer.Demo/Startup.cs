@@ -52,20 +52,21 @@ namespace IdentityServer.Demo {
 
             //Adding external authentication
             services.AddAuthentication ()
-                // //Adding Google as an external authentication
-                // .AddGoogle ("Google", options => {
-                //     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                //Adding Google as an external authentication
+                .AddGoogle ("Google", options => {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-                //     options.ClientId = "708996912208-9m4dkjb5hscn7cjrn5u0r4tbgkbj1fko.apps.googleusercontent.com";
-                //     options.ClientSecret = "wdfPY6t8H8cecgjlxud__4Gh";
-                // })
+                    options.ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com";
+                    options.ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo";
+                })
                 //Adding OpenID Connect
-                .AddOpenIdConnect ("demoidsrv", "IdentityServer", options => {
+                .AddOpenIdConnect ("oidc", "OpenID Connect", options => {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     options.SignOutScheme = IdentityServerConstants.SignoutScheme;
 
                     options.Authority = "https://demo.identityserver.io/";
                     options.ClientId = "implicit";
+
                     options.ResponseType = "id_token";
                     options.SaveTokens = true;
                     options.CallbackPath = new PathString ("/signin-idsrv");

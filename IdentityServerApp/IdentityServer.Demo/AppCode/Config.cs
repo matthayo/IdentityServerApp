@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
@@ -39,11 +40,33 @@ namespace IdentityServer.Demo.AppCode {
                     AllowedScopes = { "api1" }
                 },
 
-                // OpenID Connect implicit flow client (MVC)
-                new Client {
+                // // OpenID Connect implicit flow client (MVC)
+                // new Client {
+                //     ClientId = "mvc",
+                //     ClientName = "MVC Client",
+                //     AllowedGrantTypes = GrantTypes.Implicit,
+
+                //     // where to redirect to after login
+                //     RedirectUris = { "http://localhost:5002/signin-oidc" },
+
+                //     // where to redirect to after logout
+                //     PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+
+                //     AllowedScopes = new List<string> {
+                //         IdentityServerConstants.StandardScopes.OpenId,
+                //         IdentityServerConstants.StandardScopes.Profile
+                //     }
+                // },
+                
+                // OpenID Connect Hybrid Flow client
+                new Client{
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+
+                    ClientSecrets = {
+                        new Secret("secret".Sha256())
+                    },
 
                     // where to redirect to after login
                     RedirectUris = { "http://localhost:5002/signin-oidc" },
@@ -53,8 +76,10 @@ namespace IdentityServer.Demo.AppCode {
 
                     AllowedScopes = new List<string> {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                    }
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    },
+                    AllowOfflineAccess = true
                 }
             };
         }
@@ -62,13 +87,24 @@ namespace IdentityServer.Demo.AppCode {
             return new List<TestUser> {
                 new TestUser {
                     SubjectId = "1",
-                        Username = "alice",
-                        Password = "password"
+                    Username = "alice",
+                    Password = "password",
+
+                    Claims = new []
+                    {
+                        new Claim("name", "Alice"),
+                        new Claim("website", "https://alice.com")
+                    }
                 },
                 new TestUser {
                     SubjectId = "2",
-                        Username = "bob",
-                        Password = "password"
+                    Username = "bob",
+                    Password = "password",
+                    Claims = new []
+                    {
+                        new Claim("name", "Bob"),
+                        new Claim("website", "https://bob.com")
+                    }
                 }
             };
         }
