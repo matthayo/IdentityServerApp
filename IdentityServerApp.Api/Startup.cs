@@ -63,8 +63,9 @@ namespace IdentityServerApp.Api
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     options.SignOutScheme = IdentityServerConstants.SignoutScheme;
 
-                    options.Authority = "https://demo.identityserver.io/";
+                    options.Authority = "http://localhost:5002/";
                     options.ClientId = "implicit";
+                    options.RequireHttpsMetadata = false;
 
                     options.ResponseType = "id_token";
                     options.SaveTokens = true;

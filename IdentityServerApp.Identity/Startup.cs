@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IdentityServerApp.Identity.Data;
@@ -76,7 +71,7 @@ namespace IdentityServerApp.Identity
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                     options.SignOutScheme = IdentityServerConstants.SignoutScheme;
 
-                    options.Authority = "https://demo.identityserver.io/";
+                    options.Authority = "http://localhost:5002/";
                     options.ClientId = "implicit";
 
                     options.ResponseType = "id_token";
@@ -89,6 +84,7 @@ namespace IdentityServerApp.Identity
                         NameClaimType = "name",
                         RoleClaimType = "role"
                     };
+                    options.RequireHttpsMetadata = false;
                 });
 
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +27,7 @@ namespace IdentityServerApp.Client
                 .AddOpenIdConnect ("oidc", options => {
                     options.SignInScheme = "Cookies";
 
-                    options.Authority = "https://localhost:5001";
+                    options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
 
                     options.ClientId = "mvc";
