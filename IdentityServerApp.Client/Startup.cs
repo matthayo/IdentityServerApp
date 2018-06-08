@@ -27,6 +27,7 @@ namespace IdentityServerApp.Client
                 .AddOpenIdConnect ("oidc", options => {
                     options.SignInScheme = "Cookies";
 
+                    options.Authority = "https://localhost:5001";
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
 
